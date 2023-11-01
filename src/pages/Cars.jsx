@@ -1,4 +1,5 @@
 import CarFilterBox from "../components/CarFilterBox";
+import CarList from "../components/CarList";
 import Hero from "../components/Hero";
 
 function Cars() {
@@ -6,6 +7,7 @@ function Cars() {
     <>
       <Hero landingPage={false} />
       <CarFilterBox />
+      <CarList />
     </>
   );
 }

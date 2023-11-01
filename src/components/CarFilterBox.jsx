@@ -41,7 +41,7 @@ function CarFilterBox() {
             id="waktu"
             aria-label="Default select example"
           >
-            <option selected value="false">
+            <option defaultValue={null} value="false">
               Pilih Waktu
             </option>
             <option value="08:00">08:00 WIB</option>
