@@ -1,4 +1,29 @@
+import { useContext, useState } from "react";
+import { CarContext } from "../contexts/FilterContext";
+
 function CarFilterBox() {
+  const { carFilter } = useContext(CarContext);
+  const [filter, setFilter] = useState({
+    type: "",
+    date: "",
+    time: "",
+    capacity: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    carFilter(filter.type, filter.date, filter.time, filter.capacity);
+    console.log(filter);
+  };
+
   return (
     <div
       className="d-flex justify-content-center w-100 bg-white position-absolute text-start "
@@ -16,6 +41,8 @@ function CarFilterBox() {
             style={{ fontSize: "small" }}
             id="tipe"
             aria-label="Default select example"
+            name="type"
+            onChange={handleInputChange}
           >
             <option value="default">Pilih Tipe Driver</option>
             <option value="true">Dengan Sopir</option>
@@ -30,6 +57,8 @@ function CarFilterBox() {
             style={{ fontSize: "small" }}
             type="date"
             className="input p-2 pe-2 ps-2 border rounded-1 border-1"
+            name="date"
+            onChange={handleInputChange}
           />
         </div>
 
@@ -40,6 +69,8 @@ function CarFilterBox() {
             className="form-select form-select-sm p-2 input"
             id="waktu"
             aria-label="Default select example"
+            name="time"
+            onChange={handleInputChange}
           >
             <option defaultValue={null} value="false">
               Pilih Waktu
@@ -61,6 +92,8 @@ function CarFilterBox() {
               placeholder="Jumlah Penumpang"
               style={{ fontSize: "small" }}
               className="form-control border-end-0 rounded-start-1 input"
+              name="capacity"
+              onChange={handleInputChange}
             />
             <span className="input-group-text border-start-0 bg-white rounded-end-1">
               <i data-feather="users" className="w-75"></i>
@@ -74,6 +107,7 @@ function CarFilterBox() {
             type="button"
             className="w-100 h-auto p-2 btn text-white rounded-1"
             id="load-btn"
+            onClick={handleSubmit}
           >
             Cari Mobil
           </button>

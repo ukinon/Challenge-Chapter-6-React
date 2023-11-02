@@ -1,6 +1,11 @@
+import { Users, Calendar, Settings } from "react-feather";
+
 function CarCard({ car }) {
   function getImgUrl(name) {
     return new URL(`${name}`, "http://localhost:5173/src/assets/").href;
+  }
+  function thousandSeparator(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
   return (
@@ -20,34 +25,28 @@ function CarCard({ car }) {
           style={{ fontSize: "16px", fontWeight: "bolder" }}
           className="card-title"
         >
-          Rp {car.rentPerDay} / hari
+          Rp {thousandSeparator(car.rentPerDay)} / hari
         </h3>
         <p style={{ fontSize: "14px", height: "60px" }} className="card-text">
           {car.description}
         </p>
 
         <div className="d-flex flex-row gap-2 align-items-center">
-          <svg className="feather">
-            <use href="./scripts/feather-icons/dist/feather-sprite.svg#users" />
-          </svg>
+          <Users />
           <p style={{ fontSize: "14px" }} className="card-text">
             {car.capacity} Orang
           </p>
         </div>
 
         <div className="d-flex flex-row gap-2 align-items-center">
-          <svg className="feather">
-            <use href="./scripts/feather-icons/dist/feather-sprite.svg#settings" />
-          </svg>
+          <Settings />
           <p style={{ fontSize: "14px" }} className="card-text">
             {car.transmission}
           </p>
         </div>
 
         <div className="d-flex flex-row gap-2 align-items-center">
-          <svg className="feather">
-            <use href="./scripts/feather-icons/dist/feather-sprite.svg#calendar" />
-          </svg>
+          <Calendar />
           <p style={{ fontSize: "14px" }} className="card-text">
             Tahun {car.year}
           </p>
