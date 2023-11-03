@@ -61,7 +61,6 @@ function Header() {
             tabIndex="-1"
             id="offcanvasResponsive"
             aria-labelledby="offcanvasResponsiveLabel"
-            style={{ height: "80%" }}
           >
             <div className="offcanvas-header">
               <a
@@ -80,7 +79,7 @@ function Header() {
               ></button>
             </div>
             <div className="offcanvas-body justify-content-sm-end me-sm-5">
-              <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center anchor">
+              <div className="d-flex flex-column flex-lg-row align-items-start align-items-sm-center anchor">
                 <a href="#service" className="navLink">
                   <button
                     type="button"

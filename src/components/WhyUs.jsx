@@ -3,13 +3,13 @@ function WhyUs() {
     <div className="d-flex justify-content-center" id="whyUs">
       <div
         className="d-flex flex-column justify-content-center align-items-center align-items-sm-start"
-        style={{ width: "90%" }}
+        style={{ width: "75%" }}
       >
         <div className="d-flex flex-column mb-3  text-center text-sm-start">
           <h1 id="whyTitle">Why Us?</h1>
           <p id="whyDesc">Mengapa harus Binar Car Rental?</p>
         </div>
-        <div className="row gap-4 align-items-center">
+        <div className="row gap-3 align-items-center">
           <div className="col-12 col-sm-auto d-flex flex-column gap-3 border border-dark-subtle p-3 rounded-3">
             <svg
               width="32"
