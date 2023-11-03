@@ -28,7 +28,6 @@ function CarFilterBox() {
     <div
       className="d-flex justify-content-center w-100 bg-white position-absolute text-start "
       id="box"
-      style={{ zIndex: "888" }}
     >
       <div
         className="p-4 position-absolute bg-white shadow-lg w-75 rounded-3 d-flex flex-column flex-lg-row justify-content-center gap-2"
