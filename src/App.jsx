@@ -1,4 +1,3 @@
-import "./App.css";
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

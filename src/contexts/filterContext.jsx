@@ -4,7 +4,6 @@ import { carsData } from "../../carsData";
 export const CarContext = createContext({
   cars: [],
   carFilter: () => {},
-  inputFocus: () => {},
 });
 
 function carListReducer(state, action) {
