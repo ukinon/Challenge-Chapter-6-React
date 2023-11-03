@@ -264,6 +264,10 @@ body {
   text-align: start;
 }
 
+#list-container {
+  margin-top: 360px;
+}
+
 @media only screen and (min-width: 768px) {
   #navbar {
     position: fixed;
@@ -530,15 +534,8 @@ body {
     font-family: Helvetica;
     font-weight: 400;
   }
-}
 
-.feather {
-  width: 24px;
-  height: 24px;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-  opacity: 50%;
+  #list-container {
+    margin-top: 100px;
+  }
 }

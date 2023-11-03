@@ -1,14 +1,27 @@
-import { createContext, useReducer } from "react";
-import { carsData } from "../../carsData";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const CarContext = createContext({
   cars: [],
   carFilter: () => {},
+  isLoading: false,
 });
+
+async function getCarsData(setIsLoading, setCarsData) {
+  setIsLoading(true);
+  const response = await fetch(
+    "https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
+  );
+  const data = await response.json();
+  setCarsData(data);
+  setIsLoading(false);
+}
 
 function carListReducer(state, action) {
   if (action.type == "FILTER") {
     const filteredCars = [];
+    const carsData = action.payload.carsData;
+
+    getCarsData(action.payload.setIsLoading, action.payload.setCarsData);
 
     const carList = carsData.filter((cars) => {
       const pickUpDate = new Date(cars.availableAt).getTime();
@@ -24,19 +37,35 @@ function carListReducer(state, action) {
     });
 
     filteredCars.push(...carList);
-    console.log(carsData[0].availableAt);
     return {
       cars: filteredCars,
     };
+  } else {
+    return {
+      cars: action.payload.carsData,
+    };
   }
-
-  return state;
 }
 
 export default function CarContextProvider({ children }) {
   const [carListState, carListDispatch] = useReducer(carListReducer, {
     cars: [],
   });
+  const [carsData, setCarsData] = useState();
+  const [isLoading, setIsLoading] = useState();
+
+  useEffect(function () {
+    async function getCars() {
+      setIsLoading(true);
+      const response = await fetch(
+        "https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
+      );
+      const data = await response.json();
+      setCarsData(data);
+      setIsLoading(false);
+    }
+    getCars();
+  }, []);
 
   function handleCarFilter(driverType, date, pickUpTime, passenger) {
     carListDispatch({
@@ -46,6 +75,9 @@ export default function CarContextProvider({ children }) {
         date,
         pickUpTime,
         passenger,
+        carsData: carsData,
+        setCarsData,
+        setIsLoading,
       },
     });
   }
@@ -53,6 +85,7 @@ export default function CarContextProvider({ children }) {
   const ctxValue = {
     cars: carListState.cars,
     carFilter: handleCarFilter,
+    isLoading: isLoading,
   };
 
   return (
