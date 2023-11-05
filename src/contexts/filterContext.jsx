@@ -40,9 +40,8 @@ function carListReducer(state, action) {
     return {
       cars: filteredCars,
     };
-  } else {
-    return state;
   }
+  return state;
 }
 
 export default function CarContextProvider({ children }) {
