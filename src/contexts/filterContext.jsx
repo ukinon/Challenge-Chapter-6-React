@@ -6,22 +6,10 @@ export const CarContext = createContext({
   isLoading: false,
 });
 
-async function getCarsData(setIsLoading, setCarsData) {
-  setIsLoading(true);
-  const response = await fetch(
-    "https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
-  );
-  const data = await response.json();
-  setCarsData(data);
-  setIsLoading(false);
-}
-
 function carListReducer(state, action) {
   if (action.type == "FILTER") {
     const filteredCars = [];
     const carsData = action.payload.carsData;
-
-    getCarsData(action.payload.setIsLoading, action.payload.setCarsData);
 
     const carList = carsData.filter((cars) => {
       const pickUpDate = new Date(cars.availableAt).getTime();
