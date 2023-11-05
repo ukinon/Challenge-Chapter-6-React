@@ -41,9 +41,7 @@ function carListReducer(state, action) {
       cars: filteredCars,
     };
   } else {
-    return {
-      cars: action.payload.carsData,
-    };
+    return state;
   }
 }
 
