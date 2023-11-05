@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer, useState } from "react";
 
 export const CarContext = createContext({
   cars: [],
@@ -38,33 +38,33 @@ export default function CarContextProvider({ children }) {
   });
   const [carsData, setCarsData] = useState();
   const [isLoading, setIsLoading] = useState();
+  const [searchClick, setSearchClick] = useState(false);
 
-  useEffect(function () {
+  function handleCarFilter(driverType, date, pickUpTime, passenger) {
     async function getCars() {
       setIsLoading(true);
       const response = await fetch(
         "https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
       );
+      setSearchClick(true);
       const data = await response.json();
       setCarsData(data);
       setIsLoading(false);
     }
     getCars();
-  }, []);
-
-  function handleCarFilter(driverType, date, pickUpTime, passenger) {
-    carListDispatch({
-      type: "FILTER",
-      payload: {
-        driverType,
-        date,
-        pickUpTime,
-        passenger,
-        carsData: carsData,
-        setCarsData,
-        setIsLoading,
-      },
-    });
+    if (searchClick) {
+      carListDispatch({
+        type: "FILTER",
+        payload: {
+          driverType,
+          date,
+          pickUpTime,
+          passenger,
+          carsData: carsData,
+        },
+      });
+    }
+    setSearchClick(false);
   }
 
   const ctxValue = {
