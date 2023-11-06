@@ -38,21 +38,28 @@ export default function CarContextProvider({ children }) {
   });
   const [carsData, setCarsData] = useState();
   const [isLoading, setIsLoading] = useState();
-  const [searchClick, setSearchClick] = useState(false);
 
-  function handleCarFilter(driverType, date, pickUpTime, passenger) {
-    async function getCars() {
-      setIsLoading(true);
+  async function getCars() {
+    setIsLoading(true);
+    try {
       const response = await fetch(
-        "https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
+        "https:raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
       );
-      setSearchClick(true);
       const data = await response.json();
       setCarsData(data);
       setIsLoading(false);
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
     }
-    getCars();
-    if (searchClick) {
+  }
+
+  async function handleCarFilter(driverType, date, pickUpTime, passenger) {
+    const data = await getCars();
+    let val = true;
+
+    if (val) {
       carListDispatch({
         type: "FILTER",
         payload: {
@@ -60,11 +67,11 @@ export default function CarContextProvider({ children }) {
           date,
           pickUpTime,
           passenger,
-          carsData: carsData,
+          carsData: data,
         },
       });
     }
-    setSearchClick(false);
+    val = false;
   }
 
   const ctxValue = {
