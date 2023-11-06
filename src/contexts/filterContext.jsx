@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const CarContext = createContext({
   cars: [],
@@ -38,40 +38,35 @@ export default function CarContextProvider({ children }) {
   });
   const [carsData, setCarsData] = useState();
   const [isLoading, setIsLoading] = useState();
-
-  async function getCars() {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        "https:raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
-      );
-      const data = await response.json();
-      setCarsData(data);
-      setIsLoading(false);
-      return data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setIsLoading(false);
+  useEffect(() => {
+    async function getCars() {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https:raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
+        );
+        const data = await response.json();
+        setCarsData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
     }
-  }
+    getCars();
+  }, []);
 
-  async function handleCarFilter(driverType, date, pickUpTime, passenger) {
-    const data = await getCars();
-    let val = true;
-
-    if (val) {
-      carListDispatch({
-        type: "FILTER",
-        payload: {
-          driverType,
-          date,
-          pickUpTime,
-          passenger,
-          carsData: data,
-        },
-      });
-    }
-    val = false;
+  function handleCarFilter(driverType, date, pickUpTime, passenger) {
+    carListDispatch({
+      type: "FILTER",
+      payload: {
+        driverType,
+        date,
+        pickUpTime,
+        passenger,
+        carsData: carsData,
+      },
+    });
   }
 
   const ctxValue = {
