@@ -4,6 +4,7 @@ export const CarContext = createContext({
   cars: [],
   carFilter: () => {},
   isLoading: false,
+  error: "",
 });
 
 function carListReducer(state, action) {
@@ -16,9 +17,8 @@ function carListReducer(state, action) {
       const date = new Date(
         `${action.payload.date} ${action.payload.pickUpTime}`
       ).getTime();
-
       return (
-        cars.available.toString() == action.payload.driverType &&
+        cars.available == JSON.parse(action.payload.driverType) &&
         date >= pickUpDate &&
         cars.capacity >= action.payload.passenger
       );
@@ -38,10 +38,13 @@ export default function CarContextProvider({ children }) {
   });
   const [carsData, setCarsData] = useState();
   const [isLoading, setIsLoading] = useState();
+  const [error, setError] = useState("");
+
   useEffect(() => {
     async function getCars() {
       setIsLoading(true);
       try {
+        setError("");
         const response = await fetch(
           "https:raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json"
         );
@@ -49,7 +52,8 @@ export default function CarContextProvider({ children }) {
         setCarsData(data);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.message);
+        setError(error.message);
         setIsLoading(false);
       }
     }
@@ -73,6 +77,7 @@ export default function CarContextProvider({ children }) {
     cars: carListState.cars,
     carFilter: handleCarFilter,
     isLoading: isLoading,
+    error: error,
   };
 
   return (

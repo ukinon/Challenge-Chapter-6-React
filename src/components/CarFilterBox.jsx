@@ -44,8 +44,8 @@ function CarFilterBox() {
             onChange={handleInputChange}
           >
             <option value="default">Pilih Tipe Driver</option>
-            <option value="true">Dengan Sopir</option>
-            <option value="false">Tanpa Sopir (Lepas Kunci)</option>
+            <option value={true}>Dengan Sopir</option>
+            <option value={false}>Tanpa Sopir (Lepas Kunci)</option>
           </select>
         </div>
 
