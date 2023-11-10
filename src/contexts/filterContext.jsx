@@ -5,6 +5,7 @@ export const CarContext = createContext({
   carFilter: () => {},
   isLoading: false,
   error: "",
+  isSubmitted: false,
 });
 
 function carListReducer(state, action) {
@@ -36,9 +37,19 @@ export default function CarContextProvider({ children }) {
   const [carListState, carListDispatch] = useReducer(carListReducer, {
     cars: [],
   });
+
+  const submitState = {
+    SUBMITTED: "submitted",
+    NOT_SUBMITTED: "not_submitted",
+    NOT_COMPLETE: "not_complete",
+  };
+
   const [carsData, setCarsData] = useState();
   const [isLoading, setIsLoading] = useState();
   const [error, setError] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState({
+    state: submitState.NOT_SUBMITTED,
+  });
 
   useEffect(() => {
     async function getCars() {
@@ -61,16 +72,25 @@ export default function CarContextProvider({ children }) {
   }, []);
 
   function handleCarFilter(driverType, date, pickUpTime, passenger) {
-    carListDispatch({
-      type: "FILTER",
-      payload: {
-        driverType,
-        date,
-        pickUpTime,
-        passenger,
-        carsData: carsData,
-      },
+    setIsSubmitted({
+      state: submitState.NOT_COMPLETE,
     });
+    carListState.cars = [];
+    if (driverType != "" && date != "" && pickUpTime != "") {
+      carListDispatch({
+        type: "FILTER",
+        payload: {
+          driverType,
+          date,
+          pickUpTime,
+          passenger,
+          carsData: carsData,
+        },
+      });
+      setIsSubmitted({
+        state: submitState.SUBMITTED,
+      });
+    }
   }
 
   const ctxValue = {
@@ -78,6 +98,7 @@ export default function CarContextProvider({ children }) {
     carFilter: handleCarFilter,
     isLoading: isLoading,
     error: error,
+    isSubmitted: isSubmitted,
   };
 
   return (

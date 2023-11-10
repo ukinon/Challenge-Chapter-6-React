@@ -3,7 +3,7 @@ function WhyUs() {
     <div className="d-flex justify-content-center" id="whyUs">
       <div
         className="d-flex flex-column justify-content-center align-items-center align-items-sm-start"
-        style={{ width: "75%" }}
+        style={{ width: "85%" }}
       >
         <div className="d-flex flex-column mb-3  text-center text-sm-start">
           <h1 id="whyTitle">Why Us?</h1>
